@@ -1,7 +1,9 @@
 (ns okcampkid.core
   (:gen-class))
 
+(def menu-banner-text (slurp (clojure.java.io/resource "menubanner.txt")))
+
 (defn -main
-  "I don't do a whole lot ... yet."
   [& args]
-  (println "Hello, World!"))
+  (println menu-banner-text)
+  (println "Welcome to OkCampKid!\n"))
