@@ -1,5 +1,6 @@
 (ns okcampkid.core
-  (:require [okcampkid.types :refer [Camper Band parse-camper]]
+  (:require [okcampkid.sample-data :as sd]
+            [okcampkid.types :refer [Camper Band parse-camper]]
             [schema.core :as s])
   (:gen-class))
 
@@ -35,11 +36,14 @@
   []
   (loop []
     (println "Please make a selection:\n")
+    (println "----------------------------\n")
     (println "1) Add a new camper")
     (println "2) View current campers")
     (println "3) Edit a camper")
     (println "4) Suggest band formations")
     (println "5) Exit")
+    (println "----------------------------\n")
+    (println "6) Load test data")
     (let [choice (read-line)
           result (cond
                   (= choice "1") (prompt-for-camper)
@@ -47,15 +51,17 @@
                   (= choice "3") "edit not implemented"
                   (= choice "4") "suggest not implemented"
                   (= choice "5") "Bye!"
+                  (= choice "6") (map add-camper sd/all-campers)
                   :else "invalid choice")]
          (prn result)
       (when (not= choice "5")  (recur)))))
-
-
-
 
 (defn -main
   [& args]
   (println menu-banner-text)
   (println "Welcome to OkCampKid!\n\n")
   (input-repl))
+
+(comment
+  (require '[okcampkid.sample-data :as sd])
+  (map add-camper sd/all-campers))
