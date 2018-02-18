@@ -1,5 +1,5 @@
 (ns okcampkid.core
-  (:require [okcampkid.types :refer [Camper Band]]
+  (:require [okcampkid.types :refer [Camper Band parse-camper]]
             [schema.core :as s])
   (:gen-class))
 
@@ -16,13 +16,16 @@
   (print "Enter the camper's name: ")
   (flush)
   (let [name (read-line)]
-    (print (format "Enter %s's age:" name))
+    (print (format "Enter %s's age: " name))
     (flush)
-    (let [age (read-line)]
+    (let [age (Integer/parseInt (read-line))]
       (print (format "What instrument does %s play? " name))
       (flush)
-      (let [instrument (read-line)]
-        (add-camper {:name name :age age :instrument instrument})))))
+      (let [instrument (read-line)
+            camper (s/validate Camper
+                               (parse-camper {:name name :age age :instrument instrument :preferences []}))]
+        (add-camper camper)))))
+
 
 (defn list-campers
   []
