@@ -4,7 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [prismatic/schema "1.1.6"]]
+                 [prismatic/schema "1.1.7"]]
   :main ^:skip-aot okcampkid.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
