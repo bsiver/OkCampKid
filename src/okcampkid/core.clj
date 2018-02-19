@@ -1,10 +1,18 @@
 (ns okcampkid.core
-  (:require [okcampkid.sample-data :as sd]
-            [okcampkid.types :refer [Camper Band parse-camper]]
+  (:require [clojure.math.combinatorics :as combo]
+            [okcampkid.sample-data :as sd]
+            [okcampkid.types :refer [Band
+                                     band-size
+                                     Camper
+                                     parse-camper]]
             [schema.core :as s])
   (:gen-class))
 
 (def menu-banner-text (slurp (clojure.java.io/resource "menubanner.txt")))
+
+(defn clear-screen []
+  (print "\u001b[2J")
+  (print "\u001B[0;0f"))
 
 (def Campers (atom []))
 
@@ -32,10 +40,20 @@
   []
   (prn @Campers))
 
+(defn suggest-formations
+  []
+  (let [formations (filter okcampkid.types/is-valid-band (combo/combinations @Campers band-size))]
+    (doseq [ [i band] (map-indexed vector formations)]
+      (println (format "Band %s" i))
+      (println "----------------------------\n")
+      (doseq [{member :name instrument :instrument} band]
+        (println (format "%s on %s" member (-> instrument name)))))))
+
+
 (defn input-repl
   []
   (loop []
-    (println "Please make a selection:\n")
+    (println "\n\nPlease make a selection")
     (println "----------------------------\n")
     (println "1) Add a new camper")
     (println "2) View current campers")
@@ -44,12 +62,14 @@
     (println "5) Exit")
     (println "----------------------------\n")
     (println "6) Load test data")
+    (print "Your selection: ")
+    (flush)
     (let [choice (read-line)
           result (cond
                   (= choice "1") (prompt-for-camper)
                   (= choice "2") (list-campers)
                   (= choice "3") "edit not implemented"
-                  (= choice "4") "suggest not implemented"
+                  (= choice "4") (suggest-formations)
                   (= choice "5") "Bye!"
                   (= choice "6") (map add-camper sd/all-campers)
                   :else "invalid choice")]

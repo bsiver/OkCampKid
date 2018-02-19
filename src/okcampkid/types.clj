@@ -12,6 +12,7 @@
 (def parse-camper (coerce/coercer Camper coerce/json-coercion-matcher))
 
 (s/defschema Band {:campers [Camper]})
+(def ^:const band-size 4)
 
 ;(def bassists
 ;  (filter #(= (:instrument %) :bass ) @Campers))
