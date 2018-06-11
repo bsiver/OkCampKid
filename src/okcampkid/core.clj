@@ -4,7 +4,8 @@
             [okcampkid.types :refer [Band
                                      band-size
                                      Camper
-                                     parse-camper]]
+                                     parse-camper
+                                     rank-band]]
             [schema.core :as s])
   (:gen-class))
 
@@ -42,12 +43,14 @@
 
 (defn suggest-formations
   []
-  (let [formations (filter okcampkid.types/is-valid-band (combo/combinations @Campers band-size))]
-    (doseq [ [i band] (map-indexed vector formations)]
-      (println (format "Band %s" i))
-      (println "----------------------------\n")
-      (doseq [{member :name instrument :instrument} band]
-        (println (format "%s on %s" member (-> instrument name)))))))
+  (let [formations (okcampkid.types/all-formations @Campers)]
+    (doseq [ [i formation] (map-indexed vector formations)]
+      (let [band {:campers formation}]
+        (println (format "Band %s" i))
+        (println "----------------------------\n")
+        (println "Ranking: " (rank-band band))
+        (doseq [{member :name instrument :instrument} formation]
+          (println (format "%s on %s" member (-> instrument name))))))))
 
 
 (defn input-repl
