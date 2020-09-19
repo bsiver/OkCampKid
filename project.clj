@@ -3,7 +3,7 @@
   :url "https://github.com/bsiver/OkCampKid"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.8.0"]
+  :dependencies [[org.clojure/clojure "1.10.1"]
                  [org.clojure/math.combinatorics "0.1.4"]
                  [prismatic/schema "1.1.7"]]
   :main ^:skip-aot okcampkid.core
