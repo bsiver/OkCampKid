@@ -58,17 +58,16 @@
 
 (s/defn rank-band
   [band :- Band]
-  (let [age-stddev (standard-deviation (map :age band))
+  (let [age-stddev (standard-deviation (map :age (:campers band)))
         age-rank (cond
-                   (<= 1 age-stddev 2) 10
-                   (<= 3 age-stddev 4) 8
-                   (<= 5 7) 4
-                   (<= 7 10) 2
+                   (<= age-stddev 1.0) 10
+                   (<= age-stddev 3.0) 8
+                   (<= age-stddev 5.0) 4
+                   (<= age-stddev 7.0) 2
                    :else 1)
-
         prefs (map :preferences (:campers band))]
     age-rank))
 
-(s/defn score-formation
+(s/defn rank-formation
   [formation :- [s/Any]]
   (reduce + (map rank-band formation)))
