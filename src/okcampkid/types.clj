@@ -54,7 +54,8 @@
   [campers :- [Camper]]
   (let [all-bands (combo/combinations campers band-size)
         possible-formations (combo/combinations all-bands (int (/ (count campers) band-size)))]
-    (filter is-valid-formation possible-formations)))
+    (->> (filter is-valid-formation possible-formations)
+      (map (fn [form] (map (fn [band] {:campers band}) form))))))
 
 (s/defn rank-band
   [band :- Band]
