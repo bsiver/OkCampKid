@@ -8,6 +8,7 @@
 
 (s/defschema Camper {:name s/Str
                      :instrument Instrument
+                     :instrument-preferences [Instrument]
                      :age s/Int
                      :preferences [s/Str]})
 

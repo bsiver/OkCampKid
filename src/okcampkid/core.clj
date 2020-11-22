@@ -45,11 +45,11 @@
   []
   (let [formations (okcampkid.types/all-formations @Campers)]
     (doseq [ [i formation] (map-indexed vector formations)]
-      (let [band {:campers formation}]
-        (println (format "Band %s" i))
-        (println "----------------------------\n")
-        (println "Ranking: " (rank-band band))
-        (doseq [{member :name instrument :instrument} formation]
+      (println (format "\nFormation %s" (+ i 1)))
+      (println "----------------------------\n")
+      (doseq [ [i band] (map-indexed vector formation)]
+        (println (format "Band %s\n" (+ i 1)))
+        (doseq [{member :name instrument :instrument} (:campers band)]
           (println (format "%s on %s" member (-> instrument name))))))))
 
 
