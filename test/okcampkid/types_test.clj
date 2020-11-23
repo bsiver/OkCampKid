@@ -14,5 +14,11 @@
   (is sd/other-band (sc/validate Band sd/other-band)))
 
 (deftest is-valid-band-missing-drummer
-  (let [drummer-less-band {:campers (remove #(= (:instrument %) :drums) (:campers sd/family-band))}]
-    (is (= false (okcampkid.types/is-valid-band drummer-less-band)))))
+  (testing "A band without a drummer should not be valid"
+    (let [drummer-less-band {:campers (remove #(= (:instrument %) :drums) (:campers sd/family-band))}]
+      (is (= false (okcampkid.types/is-valid-band drummer-less-band))))))
+
+(deftest is-valid-band-with-one-of-each-instrument
+  (testing "A band with one member on each instrument should be valid"
+    (let [band sd/other-band]
+      (is (= true (okcampkid.types/is-valid-band band))))))

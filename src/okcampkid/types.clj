@@ -30,12 +30,11 @@
 
 (s/defn is-valid-band
   [band :- Band]
-  (let [
-        ;band (:campers band)
-        bass (filter #(= (:instrument %) :bass) band)
-        guitar (filter #(= (:instrument %) :guitar) band)
-        keys (filter #(= (:instrument %) :keys) band)
-        drums (filter #(= (:instrument %) :drums) band)]
+  (let [members (:campers band)
+        bass (filter #(= (:instrument %) :bass) members)
+        guitar (filter #(= (:instrument %) :guitar) members)
+        keys (filter #(= (:instrument %) :keys) members)
+        drums (filter #(= (:instrument %) :drums) members)]
     (and (every? #(<=  1 (count %) 2) [bass guitar keys])
          (every? #(= (count %) 1) [drums]))))
 
