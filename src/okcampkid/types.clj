@@ -45,16 +45,15 @@
 
 (s/defn is-valid-formation
   [bands :- [Band]]
-  (let [distinct-campers (distinct (flatten bands))
-        all-campers (flatten bands)]
+  (let [distinct-campers (distinct (flatten (map :campers bands)))
+        all-campers (flatten (map :campers bands))]
        (= (count all-campers) (count distinct-campers))))
 
 (s/defn all-formations
   [campers :- [Camper]]
-  (let [all-bands (combo/combinations campers band-size)
+  (let [all-bands (map #(into {:campers %}) (combo/combinations campers band-size))
         possible-formations (combo/combinations all-bands (int (/ (count campers) band-size)))]
-    (->> (filter is-valid-formation possible-formations)
-      (map (fn [form] (map (fn [band] {:campers band}) form))))))
+    (filter is-valid-formation possible-formations)))
 
 (s/defn rank-band
   [band :- Band]

@@ -13,6 +13,7 @@
 (deftest validate-band-test
   (is sd/other-band (sc/validate Band sd/other-band)))
 
+; band tests
 (deftest is-valid-band-missing-drummer
   (testing "A band without a drummer should not be valid"
     (let [drummer-less-band {:campers (remove #(= (:instrument %) :drums) (:campers sd/family-band))}]
@@ -30,3 +31,28 @@
                           {:name "Magdalena" :age 9 :instrument :guitar :preferences []}
                           {:name "Cynthia" :age 11 :instrument :bass :preferences []}]}]
       (is (= true (is-valid-band band))))))
+
+; formation tests
+(deftest is-valid-formation-with-all-distinct-campers
+  (testing "A formation with all distinct campers should be valid"
+    (let [band-one {:campers [{:name "Jen" :age 10 :instrument :drums :preferences []}
+                              {:name "Tina" :age 8 :instrument :guitar :preferences []}
+                              {:name "Magdalena" :age 9 :instrument :guitar :preferences []}
+                              {:name "Cynthia" :age 11 :instrument :bass :preferences []}]}
+          band-two {:campers [{:name "Berta" :age 10 :instrument :drums :preferences []}
+                              {:name "Ursula" :age 8 :instrument :guitar :preferences []}
+                              {:name "Rosario" :age 9 :instrument :guitar :preferences []}
+                              {:name "Ifeoluwapo" :age 11 :instrument :bass :preferences []}]}]
+      (is (= true (is-valid-formation [band-one band-two]))))))
+
+(deftest is-valid-formation-with-repeated-camper
+  (testing "A formation with one camper in multiple bands is not valid"
+    (let [band-one {:campers [{:name "Jen" :age 10 :instrument :drums :preferences []}
+                              {:name "Tina" :age 8 :instrument :guitar :preferences []}
+                              {:name "Magdalena" :age 9 :instrument :guitar :preferences []}
+                              {:name "Cynthia" :age 11 :instrument :bass :preferences []}]}
+          band-two {:campers [{:name "Berta" :age 10 :instrument :drums :preferences []}
+                              {:name "Tina" :age 8 :instrument :guitar :preferences []}
+                              {:name "Rosario" :age 9 :instrument :guitar :preferences []}
+                              {:name "Ifeoluwapo" :age 11 :instrument :bass :preferences []}]}]
+      (is (= false (is-valid-formation [band-one band-two]))))))
