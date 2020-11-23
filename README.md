@@ -2,6 +2,8 @@
 
 A simple utility for automating the band formation process of [Girls Rock!](https://girlsrockchicago.org/)
 
+[![Build Status](https://travis-ci.org/bsiver/OkCampKid.svg?branch=main)](https://travis-ci.org/bsiver/OkCampKid)
+
 ## Usage
 
 FIXME
