@@ -35,7 +35,7 @@
         guitar (filter #(= (:instrument %) :guitar) members)
         keys (filter #(= (:instrument %) :keys) members)
         drums (filter #(= (:instrument %) :drums) members)]
-    (and (every? #(<=  1 (count %) 2) [bass guitar keys])
+    (and (every? #(<=  1 (count %) 2) [bass guitar])
          (every? #(= (count %) 1) [drums]))))
 
 (s/defn in-band
